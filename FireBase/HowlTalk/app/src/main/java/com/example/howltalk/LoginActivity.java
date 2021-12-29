@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        String splash_background = mFirebaseRemoteConfig.getString("splash_background");
+        String splash_background = mFirebaseRemoteConfig.getString(getString(R.string.rc_color));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { //롤리팝버전 이상
             getWindow().setStatusBarColor(Color.parseColor(splash_background));
         }
@@ -34,5 +34,12 @@ public class LoginActivity extends AppCompatActivity {
         login.setBackgroundColor(Color.parseColor(splash_background));
         signup.setBackgroundColor(Color.parseColor(splash_background));
 
+//        버튼 클릭 시 Signup activity로 넘어감
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            }
+        });
     }
 }
