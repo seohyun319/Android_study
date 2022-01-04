@@ -5,5 +5,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".auth.IntroActivity">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <ImageView
+            android:src="@drawable/loginbg"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"/>
+
+        <ImageView
+            android:src="@drawable/upperbg"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="로그인"
+                android:background="@drawable/background_radius"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"/>
+            <Button
+                android:text="회원 가입"
+                android:background="@drawable/background_radius"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"/>
+            <Button
+                android:text="비회원 가입"
+                android:background="@drawable/background_radius"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

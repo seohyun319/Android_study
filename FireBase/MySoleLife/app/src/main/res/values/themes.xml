@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MySoleLife" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MySoleLife" parent="Theme.AppCompat.Light"> <!-- activity intro의 버튼에 입힌 색이 안 먹어서 테마 바꿔줌 -->
         <!-- Primary brand color. -->
         <item name="windowNoTitle">true</item> <!-- 앱 상단에 뜨는 앱타이틀 부분 없애기 -->
         <item name="colorPrimary">@color/purple_500</item>
