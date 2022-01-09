@@ -26,15 +26,16 @@ class ContentListActivity : AppCompatActivity() {
         // -------------------------------------------------------------------------------------------------
 
 
-       // RecyclerView 생성
+        // RecyclerView 생성
         // activity_content_list.xml에 보면 RecyclerView id를 rv로 해놨음.
         val rv : RecyclerView = findViewById(R.id.rv)
 
         // ContentRVAdapter의 인자인 items 만들어주기
-        val items = ArrayList<String>()
-        items.add("a")
-        items.add("b")
-        items.add("c")
+        val items = ArrayList<ContentModel>()
+        items.add(ContentModel("imageUrl1", "title1"))
+        items.add(ContentModel("imageUrl1", "title1"))
+        items.add(ContentModel("imageUrl1", "title1"))
+
 
         // ContentRVAdapter 연결
         // 위에서 만든 items를 ContentRVAdapter에 인자로 넘겨줌
