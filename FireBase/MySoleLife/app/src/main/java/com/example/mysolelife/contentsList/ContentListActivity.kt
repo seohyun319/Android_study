@@ -91,15 +91,5 @@ class ContentListActivity : AppCompatActivity() {
 
         rv.layoutManager = GridLayoutManager(this, 2)
 
-        rvAdapter.itemClick = object : ContentRVAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-
-                val intent = Intent(this@ContentListActivity, ContentShowActivity::class.java)
-                // 클릭한 애의 url 데이터 넘김. url에라는 이름 안에 items의 선택된 값의 webUrl을 넘긴다.
-                intent.putExtra("url", items[position].webUrl)
-                startActivity(intent)
-            }
-
-        }
     }
 }

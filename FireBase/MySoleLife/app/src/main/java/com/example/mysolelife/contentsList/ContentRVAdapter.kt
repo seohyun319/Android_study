@@ -1,6 +1,7 @@
 package com.example.mysolelife.contentsList
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,6 @@ import com.example.mysolelife.R
 
 class ContentRVAdapter(val context : Context, val items: ArrayList<ContentModel>) : RecyclerView.Adapter<ContentRVAdapter.Viewholder>() {
 
-    interface ItemClick {
-        fun onClick(view : View, position: Int)
-    }
-    var itemClick : ItemClick? = null
-
     // 아이템 하나(content_rv_item.xml) 갖고와서 하나의 레이아웃 만들어줌
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentRVAdapter.Viewholder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.content_rv_item, parent, false)
@@ -25,11 +21,6 @@ class ContentRVAdapter(val context : Context, val items: ArrayList<ContentModel>
 
     // 바인드해와서 아이템 연결
     override fun onBindViewHolder(holder: ContentRVAdapter.Viewholder, position: Int) {
-        if(itemClick != null) {
-            holder.itemView.setOnClickListener { v->
-                itemClick?.onClick(v, position)
-            }
-        }
         holder.bindItems(items[position])
     }
 
@@ -41,6 +32,11 @@ class ContentRVAdapter(val context : Context, val items: ArrayList<ContentModel>
     // content_rv_item.xml에 하나하나씩 리턴 넣어주는 역할. 아이템의 내용물 넣어주기
     inner class Viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: ContentModel) {
+            itemView.setOnClickListener {
+                val intent = Intent(context, ContentShowActivity::class.java)
+                intent.putExtra("url", item.webUrl)
+                itemView.context.startActivity(intent)
+            }
             // itemView = content_rv_item.xml임. (위에서 연결해줬음.)
             val contentTitle = itemView.findViewById<TextView>(R.id.textArea)
             val imageViewArea = itemView.findViewById<ImageView>(R.id.imageArea)
