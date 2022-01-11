@@ -10,11 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mysolelife.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class ContentListActivity : AppCompatActivity() {
+
+    // lateinit: 타입만 정해놓고 값은 나중에 넣겠다
+    lateinit var myRef : DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_content_list)
@@ -29,7 +34,14 @@ class ContentListActivity : AppCompatActivity() {
         // Firebase Realtime Database
         // Write a message to the database
         val database = Firebase.database
-        val myRef = database.getReference("contents")
+
+        val category = intent.getStringExtra("category")
+
+        if(category == "category1") {
+            myRef = database.getReference("contents")
+        } else if(category == "category2") {
+            myRef = database.getReference("contents2")
+        }
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -52,6 +64,9 @@ class ContentListActivity : AppCompatActivity() {
             }
         }
         myRef.addValueEventListener(postListener)
+
+
+
 
         // -------------------------------------------------------------------------------------------------
         // ContentListActivity ⊃ ContentRVAdapter
