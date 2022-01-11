@@ -11,6 +11,12 @@ import com.bumptech.glide.Glide
 import com.example.mysolelife.R
 
 class ContentRVAdapter(val context : Context, val items: ArrayList<ContentModel>) : RecyclerView.Adapter<ContentRVAdapter.Viewholder>() {
+
+    interface ItemClick {
+        fun onClick(view : View, position: Int)
+    }
+    var itemClick : ItemClick? = null
+
     // 아이템 하나(content_rv_item.xml) 갖고와서 하나의 레이아웃 만들어줌
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentRVAdapter.Viewholder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.content_rv_item, parent, false)
@@ -19,6 +25,11 @@ class ContentRVAdapter(val context : Context, val items: ArrayList<ContentModel>
 
     // 바인드해와서 아이템 연결
     override fun onBindViewHolder(holder: ContentRVAdapter.Viewholder, position: Int) {
+        if(itemClick != null) {
+            holder.itemView.setOnClickListener { v->
+                itemClick?.onClick(v, position)
+            }
+        }
         holder.bindItems(items[position])
     }
 
