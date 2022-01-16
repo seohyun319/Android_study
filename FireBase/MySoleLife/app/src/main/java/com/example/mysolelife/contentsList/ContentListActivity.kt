@@ -8,6 +8,8 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mysolelife.R
+import com.example.mysolelife.utils.FBAuth
+import com.example.mysolelife.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -20,15 +22,20 @@ class ContentListActivity : AppCompatActivity() {
     // lateinit: 타입만 정해놓고 값은 나중에 넣겠다
     lateinit var myRef : DatabaseReference
 
+    val bookmarkIdList = mutableListOf<String>()
+
+    lateinit var rvAdapter: ContentRVAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_content_list)
 
         // ContentRVAdapter의 인자인 items 만들어주기
         val items = ArrayList<ContentModel>()
+        val itemKeyList = ArrayList<String>()
         // ContentRVAdapter 연결
         // 위에서 만든 items를 ContentRVAdapter에 인자로 넘겨줌
-        val rvAdapter = ContentRVAdapter(baseContext, items)
+        rvAdapter = ContentRVAdapter(baseContext, items, itemKeyList, bookmarkIdList)
 
 
         // Firebase Realtime Database
@@ -51,6 +58,7 @@ class ContentListActivity : AppCompatActivity() {
                     Log.d("ContentListActivity", dataModel.toString())
                     val item = dataModel.getValue(ContentModel::class.java)
                     items.add(item!!)
+                    itemKeyList.add(dataModel.key.toString())
                 }
                 // 비동기라서 아이템 내용 받아오는 도중에 밑에 있는 리사이클러뷰 만들어짐. 리사이클러뷰 만들어진 후에 데이터가 불러와져서 이미 만들어진 리사이클러뷰에 들어가지 않음.
                 // 그니까 데이터 다 받아오면 어뎁터를 refresh, 동기화해줘라.
@@ -91,5 +99,27 @@ class ContentListActivity : AppCompatActivity() {
 
         rv.layoutManager = GridLayoutManager(this, 2)
 
+        // 함수 실행
+        getBookmarkData()
+    }
+
+    private fun getBookmarkData(){
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // 기존에 있던 애를 클리어
+                bookmarkIdList.clear()
+
+                for (dataModel in dataSnapshot.children) {
+                    bookmarkIdList.add(dataModel.key.toString())
+                }
+                Log.d("Bookmark : ", bookmarkIdList.toString())
+                rvAdapter.notifyDataSetChanged()
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FBRef.bookmarkRef.child(FBAuth.getUid()).addValueEventListener(postListener)
     }
 }
